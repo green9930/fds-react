@@ -1,41 +1,47 @@
 // 모듈 주입(injection)
-(function main(global, Euid, DOM) {
-  'use strict';
+import * as Euid from './modules/Euid/index.js'
+import { getNodes, createElement, render} from './modules/DOM.js'
 
-  /* -------------------------------------------------------------------------- */
+const {
+  logger: {success, error},
+  tester: {test, expect},
+  utils: {isFunction},
+} = Euid
+
+/* -------------------------------------------------------------------------- */
 
   // Euid 모듈 멤버 추출
-  var logger = Euid.logger;
-  var tester = Euid.tester;
-  var utils = Euid.utils;
+  // var logger = Euid.logger;
+  // var tester = Euid.tester;
+  // var utils = Euid.utils;
 
-  // logger 모듈 멤버 추출
-  var success = logger.success;
-  var error = logger.error;
+  // // logger 모듈 멤버 추출
+  // var success = logger.success;
+  // var error = logger.error;
 
-  // tester 모듈 멤버 추출
-  var test = tester.test;
-  var expect = tester.expect;
+  // // tester 모듈 멤버 추출
+  // var test = tester.test;
+  // var expect = tester.expect;
 
-  // utils 모듈 멤버 추출
-  var isFunction = utils.isFunction;
+  // // utils 모듈 멤버 추출
+  // var isFunction = utils.isFunction;
 
-  /* -------------------------------------------------------------------------- */
+  // /* -------------------------------------------------------------------------- */
 
-  // DOM 모듈 추출
-  var getNode = DOM.getNode;
-  var createElement = DOM.createElement;
-  var render = DOM.render;
+  // // DOM 모듈 추출
+  // var getNode = DOM.getNode;
+  // var createElement = DOM.createElement;
+  // var render = DOM.render;
 
-  /* -------------------------------------------------------------------------- */
+  // /* -------------------------------------------------------------------------- */
 
-  // 유효성 검사 조건 변수
-  var isValid = isFunction(getNode);
+  // // 유효성 검사 조건 변수
+  // var isValid = isFunction(getNode);
 
   // 타이머 설정
-  global.setTimeout(function () {
+  window.setTimeout(() => {
     console.group('MODULE → 모듈 관리 상태');
-    isValid
+    isFunction(getNode)
       ? success('의존성 모듈 관리에 문제가 없어 앱이 정상 작동합니다.')
       : error('의존성 모듈 관리에 문제가 있어 앱이 정상 작동하지 않습니다.');
   });
@@ -43,11 +49,11 @@
   /* -------------------------------------------------------------------------- */
   // 테스트
 
-  test('createElement() 전달 속성', function () {
+  test('createElement() 전달 속성', () => {
     const vNode = createElement('h3', { className: 'heading-3' }, 'TDD');
 
     expect(vNode.type).toBe('h3');
-    expect(vNode.props.children[0].toLowerCase()).toBe('tdd');
+    expect(vNode.props.children).toBe('tdd');
   });
 
   /* -------------------------------------------------------------------------- */
